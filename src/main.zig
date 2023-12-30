@@ -1,6 +1,6 @@
 const std = @import("std");
 
-fn obfuscate(comptime str: []const u8) []u8 {
+fn obfuscate(comptime str: []const u8) [str.len]u8 {
     // @compileLog("String: ", str);
     // @compileLog("Obfuscating...");
 
@@ -29,10 +29,10 @@ fn obfuscate(comptime str: []const u8) []u8 {
     // @compileLog("\n");
     // @compileLog("Obfuscated string: ", newstr);
 
-    return &newstr;
+    return newstr;
 }
 
-fn deobfuscate(comptime str: []const u8) []u8 {
+fn deobfuscate(comptime str: []const u8) [str.len]u8 {
     var newstr: [str.len]u8 = undefined;
 
     for (0.., str) |i, *c| {
@@ -54,10 +54,10 @@ fn deobfuscate(comptime str: []const u8) []u8 {
         newstr[i] = newchar;
     }
 
-    return &newstr;
+    return newstr;
 }
 
 pub fn main() void {
-    const mystr = deobfuscate(comptime obfuscate("Hello World!"));
+    const mystr = deobfuscate(&comptime obfuscate("Hello World!"));
     std.debug.print("My String: {s}\n", .{mystr});
 }
